@@ -16,8 +16,9 @@ public class OrderController {
     @PostMapping("/order")
     public Order insertOrder(@RequestBody Order order) {
         System.out.println("Creating order...");
-        kafkaProducer.notifyCustomer();
-        return orderRepository.save(order);
+        orderRepository.save(order);
+        kafkaProducer.notifyCustomer(order);
+        return order;
     }
 
     @GetMapping("/order/{id}")
